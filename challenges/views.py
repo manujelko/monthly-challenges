@@ -36,7 +36,11 @@ def monthly_challenge_by_number(request, month):
 def monthly_challenge(request, month):
     try:
         challenge_text = monthly_challenges[month]
-        return render(request, "challenges/challenge.html")
+        return render(
+            request,
+            "challenges/challenge.html",
+            {"text": challenge_text, "month_name": month.capitalize()},
+        )
     except KeyError:
         return MONTH_NOT_SUPPORTED
 
