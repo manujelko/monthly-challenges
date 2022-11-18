@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
 
+MONTH_NOT_SUPPORTED = HttpResponseNotFound("<h1>This month is not supported!</h1>")
+
 monthly_challenges = {
     "january": "Eat no meat for the entire month!",
     "february": "Walk for at least 20 minutes every day!",
@@ -25,7 +27,7 @@ def monthly_challenge_by_number(request, month):
     try:
         redirect_month = months[month - 1]
     except IndexError:
-        return HttpResponseNotFound("This month is not supported!")
+        return MONTH_NOT_SUPPORTED
 
     redirect_path = reverse("month-challenge", args=[redirect_month])
     return HttpResponseRedirect(redirect_path)
@@ -34,7 +36,20 @@ def monthly_challenge_by_number(request, month):
 def monthly_challenge(request, month):
     try:
         challenge_text = monthly_challenges[month]
+        response_data = f"<h1>{challenge_text}</h1>"
     except KeyError:
-        return HttpResponseNotFound("This month is not supported!")
+        return MONTH_NOT_SUPPORTED
 
-    return HttpResponse(challenge_text)
+    return HttpResponse(response_data)
+
+
+def index(request):
+    list_items = ""
+
+    for month in monthly_challenges:
+        capitalized_month = month.capitalize()
+        month_path = reverse("month-challenge", args=[month])
+        list_items += f'<li><a href="{month_path}">{capitalized_month}</a></li>'
+
+    response_data = f"<ul>{list_items}</li>"
+    return HttpResponse(response_data)
