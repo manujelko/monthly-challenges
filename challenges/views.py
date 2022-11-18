@@ -39,7 +39,7 @@ def monthly_challenge(request, month):
         return render(
             request,
             "challenges/challenge.html",
-            {"text": challenge_text, "month_name": month.capitalize()},
+            {"text": challenge_text, "month_name": month},
         )
     except KeyError:
         return MONTH_NOT_SUPPORTED
