@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 
 monthly_challenges = {
     "january": "Eat no meat for the entire month!",
@@ -17,6 +17,16 @@ monthly_challenges = {
 }
 
 # Create your views here.
+
+
+def monthly_challenge_by_number(request, month):
+    months = list(monthly_challenges.keys())
+    try:
+        forward_month = months[month - 1]
+    except IndexError:
+        return HttpResponseNotFound("This month is not supported!")
+
+    return HttpResponseRedirect(f"/challenges/{forward_month}")
 
 
 def monthly_challenge(request, month):
