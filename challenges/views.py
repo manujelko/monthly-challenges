@@ -16,7 +16,7 @@ monthly_challenges = {
     "september": "Run for at least 20 minutes each day!",
     "october": "Do handstands for at least 20 minutes each day!",
     "november": "Learn Python for at least 30 minutes each day!",
-    "december": "Learn HTML/CSS for at least 30 minutes each day!",
+    "december": None,
 }
 
 # Create your views here.
